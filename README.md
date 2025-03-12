@@ -98,3 +98,80 @@ INICIAR:
     LLAMAR GenerarContrasena
 
 ```
+## Ahorcado
+```plaintext
+FUNCION JuegoAhorcado:
+    palabras <- ["python", "programacion", "desarrollador", "computadora", "teclado"]
+    palabraOculta <- Elegir Aleatoriamente(palabras)
+    letrasAdivinadas <- Lista de tamaño (Longitud de(palabraOculta)) con valor "_"
+    errores <- 0
+    maxErrores <- 5
+
+    IMPRIMIR "¡Bienvenido al juego del Ahorcado!"
+
+    MIENTRAS (errores < maxErrores) Y (Existe "_" en letrasAdivinadas) HACER:
+         IMPRIMIR "Palabra:", Unir Con Espacios(letrasAdivinadas)
+         LEER "Ingresa una letra:" -> letra
+         letra <- Convertir a Minúsculas(letra)
+
+         SI (Longitud(letra) ≠ 1) O (letra no es Alfabética) Entonces:
+              IMPRIMIR "Por favor, ingresa solo una letra."
+              CONTINUAR
+         FIN SI
+
+         SI letra está en palabraOculta Entonces:
+              PARA CADA índice, caracter en palabraOculta HACER:
+                   SI caracter = letra Entonces:
+                        letrasAdivinadas[indice] <- letra
+                   FIN SI
+              FIN PARA
+              IMPRIMIR "¡Correcto!"
+         SI NO:
+              errores <- errores + 1
+              IMPRIMIR "Incorrecto. Errores:", errores, "/", maxErrores
+         FIN SI
+    FIN MIENTRAS
+
+    SI no existe "_" en letrasAdivinadas Entonces:
+         IMPRIMIR "¡Felicidades! Has adivinado la palabra:", palabraOculta
+    SI NO:
+         IMPRIMIR "Has perdido. La palabra era:", palabraOculta
+    FIN SI
+FIN FUNCION
+
+INICIAR:
+    LLAMAR JuegoAhorcado
+
+
+```
+
+## Fibonacci
+```plaintext
+
+FUNCION SucesionFibonacci:
+    LEER "Ingrese la posición hasta la que desea la sucesión de Fibonacci:" -> n
+    SI n <= 0 Entonces:
+         IMPRIMIR "El número debe ser mayor a 0."
+         Terminar
+    FIN SI
+
+    secuencia <- [0, 1]
+    
+    SI n = 1 Entonces:
+         IMPRIMIR "Fibonacci hasta la posición 1:", [0]
+    SI NO SI n = 2 Entonces:
+         IMPRIMIR "Fibonacci hasta la posición 2:", secuencia
+    SI NO:
+         PARA i DESDE 2 HASTA (n - 1) HACER:
+              nuevoNumero <- secuencia[i - 1] + secuencia[i - 2]
+              AÑADIR nuevoNumero a secuencia
+         FIN PARA
+         IMPRIMIR "Sucesión de Fibonacci hasta la posición", n, ":", secuencia
+    FIN SI
+FIN FUNCION
+
+INICIAR:
+    LLAMAR SucesionFibonacci
+
+```
+

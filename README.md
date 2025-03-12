@@ -175,3 +175,88 @@ INICIAR:
 
 ```
 
+## CRUD de Usuarios
+
+```plaintext
+
+GLOBAL:
+    Usuarios <- Lista Vacía
+    NextID <- 1
+
+FUNCION AgregarUsuario:
+    LEER "Ingrese el nombre de usuario:" -> nombre
+    LEER "Ingrese la edad:" -> edad (Convertir a Entero)
+    LEER "Ingrese la contraseña:" -> contrasena
+    usuario <- Diccionario { id: NextID, nombre: nombre, edad: edad, contrasena: contrasena }
+    AÑADIR usuario a Usuarios
+    NextID <- NextID + 1
+    IMPRIMIR "Usuario agregado."
+    LLAMAR ListarUsuarios
+FIN FUNCION
+
+FUNCION ListarUsuarios:
+    SI Usuarios está vacía Entonces:
+         IMPRIMIR "No hay usuarios registrados."
+         Terminar
+    FIN SI
+    IMPRIMIR "Lista de usuarios:"
+    PARA CADA usuario en Usuarios HACER:
+         IMPRIMIR usuario
+    FIN PARA
+FIN FUNCION
+
+FUNCION EditarUsuario:
+    LEER "Ingrese el ID del usuario a editar:" -> id (Convertir a Entero)
+    PARA CADA usuario en Usuarios HACER:
+         SI usuario["id"] = id Entonces:
+              LEER "Nuevo nombre de usuario:" -> nuevoNombre
+              LEER "Nueva edad:" -> nuevaEdad (Convertir a Entero)
+              LEER "Nueva contraseña:" -> nuevaContrasena
+              usuario["nombre"] <- nuevoNombre
+              usuario["edad"] <- nuevaEdad
+              usuario["contrasena"] <- nuevaContrasena
+              IMPRIMIR "Usuario actualizado."
+              LLAMAR ListarUsuarios
+              Terminar FUNCION
+         FIN SI
+    FIN PARA
+    IMPRIMIR "Usuario no encontrado."
+FIN FUNCION
+
+FUNCION EliminarUsuario:
+    LEER "Ingrese el ID del usuario a eliminar:" -> id (Convertir a Entero)
+    Usuarios <- Filtrar Usuarios para excluir el usuario cuyo id sea igual a id
+    IMPRIMIR "Usuario eliminado (si existía)."
+    LLAMAR ListarUsuarios
+FIN FUNCION
+
+FUNCION CRUDUsuarios:
+    MIENTRAS (verdadero) HACER:
+         IMPRIMIR "Menú CRUD de Usuarios:"
+         IMPRIMIR "1. Agregar usuario"
+         IMPRIMIR "2. Listar usuarios"
+         IMPRIMIR "3. Editar usuario"
+         IMPRIMIR "4. Eliminar usuario"
+         IMPRIMIR "5. Salir del CRUD"
+         LEER "Seleccione una opción:" -> opcion
+         
+         SI opcion = "1" Entonces:
+              LLAMAR AgregarUsuario
+         SI NO SI opcion = "2" Entonces:
+              LLAMAR ListarUsuarios
+         SI NO SI opcion = "3" Entonces:
+              LLAMAR EditarUsuario
+         SI NO SI opcion = "4" Entonces:
+              LLAMAR EliminarUsuario
+         SI NO SI opcion = "5" Entonces:
+              SALIR DEL BUCLE
+         SI NO:
+              IMPRIMIR "Opción inválida. Intente de nuevo."
+         FIN SI
+    FIN MIENTRAS
+FIN FUNCION
+
+INICIAR:
+    LLAMAR CRUDUsuarios
+
+```
